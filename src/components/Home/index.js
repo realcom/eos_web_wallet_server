@@ -9,7 +9,7 @@ const FormItem = Form.Item;
 @withRouter
 @observer
 class Home extends React.Component {
-
+    componend
     render() {
         const { getFieldDecorator } = this.props.form;
         return <Layout className="default-top-layout">

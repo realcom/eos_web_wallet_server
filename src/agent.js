@@ -5,7 +5,7 @@ import authStore from './stores/authStore';
 
 const superagent = superagentPromise(_superagent, global.Promise);
 
-const API_ROOT = 'https://conduit.productionready.io/api';
+const API_ROOT = 'http://localhost:3001/v1';
 
 const encode = encodeURIComponent;
 
@@ -20,7 +20,7 @@ const responseBody = res => res.body;
 
 const tokenPlugin = req => {
   if (commonStore.token) {
-    req.set('authorization', `Token ${commonStore.token}`);
+    req.set('authorization', `Bearer ${commonStore.token}`);
   }
 };
 
@@ -53,11 +53,11 @@ const requests = {
 
 const Auth = {
   current: () =>
-    requests.get('/user'),
+    requests.get('/users/profile'),
   login: (email, password) =>
-    requests.post('/users/login', { user: { email, password } }),
+    requests.post('/auth/login', { email, password }),
   register: (username, email, password) =>
-    requests.post('/users', { user: { username, email, password } }),
+    requests.post('/auth/register', { username, email, password }),
   save: user =>
     requests.put('/user', { user })
 };

@@ -1,91 +1,73 @@
 import {Link} from 'react-router-dom';
-import ListErrors from './ListErrors';
 import React from 'react';
 import {inject, observer} from 'mobx-react';
+import {Button, Checkbox, Form, Icon, Input, Layout} from 'antd';
+const { Content } = Layout;
+const FormItem = Form.Item;
 
 @inject('authStore')
 @observer
-export default class Register extends React.Component {
-
-    handleUsernameChange = e => this.props.authStore.setUsername(e.target.value);
-    handleEmailChange = e => this.props.authStore.setEmail(e.target.value);
-    handlePasswordChange = e => this.props.authStore.setPassword(e.target.value);
-    handleSubmitForm = (e) => {
-        e.preventDefault();
-        this.props.authStore.register()
-            .then(() => this.props.history.replace('/'));
-    };
+class Register extends React.Component {
 
     componentWillUnmount() {
         this.props.authStore.reset();
     }
 
+    async handleSubmit(e) {
+        e.preventDefault();
+        this.props.form.validateFields(async (err, values) => {
+            if (err) return;
+            this.props.authStore.setEmail(values.email);
+            this.props.authStore.setUsername(values.username);
+            this.props.authStore.setPassword(values.password);
+            try {
+                this.props.authStore.register()
+                .then(() => this.props.history.replace('/'));
+            } catch (error) {
+                console.log(error);
+            }
+        })
+
+    }
+
     render() {
         const {values, errors, inProgress} = this.props.authStore;
-
+        const { getFieldDecorator } = this.props.form;
         return (
-            <div className="auth-page">
-                <div className="container page">
-                    <div className="row">
+            <Layout className="default-top-layout">
+            <Content className="">
+                <Form onSubmit={this.handleSubmit.bind(this)} className="signup-form">
+                    <FormItem>
+                      {getFieldDecorator('email', {
+                        rules: [{ required: true, message: 'Please input your username!' }],
+                      })(
+                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Email" />
+                      )}
+                    </FormItem>
+                    <FormItem>
+                      {getFieldDecorator('username', {
+                        rules: [{ required: true, message: 'Please input your username!' }],
+                      })(
+                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                      )}
+                    </FormItem>
+                    <FormItem>
+                      {getFieldDecorator('password', {
+                        rules: [{ required: true, message: 'Please input your Password!' }],
+                      })(
+                        <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+                      )}
+                    </FormItem>
 
-                        <div className="col-md-6 offset-md-3 col-xs-12">
-                            <h1 className="text-xs-center">Sign Up</h1>
-                            <p className="text-xs-center">
-                                <Link to="login">
-                                    Have an account?
-                                </Link>
-                            </p>
+                    <Button type="primary" htmlType="submit" className="login-form-button">
+                          Sign up
+                    </Button>
 
-                            <ListErrors errors={errors}/>
-
-                            <form onSubmit={this.handleSubmitForm}>
-                                <fieldset>
-
-                                    <fieldset className="form-group">
-                                        <input
-                                            className="form-control form-control-lg"
-                                            type="text"
-                                            placeholder="Username"
-                                            value={values.username}
-                                            onChange={this.handleUsernameChange}
-                                        />
-                                    </fieldset>
-
-                                    <fieldset className="form-group">
-                                        <input
-                                            className="form-control form-control-lg"
-                                            type="email"
-                                            placeholder="Email"
-                                            value={values.email}
-                                            onChange={this.handleEmailChange}
-                                        />
-                                    </fieldset>
-
-                                    <fieldset className="form-group">
-                                        <input
-                                            className="form-control form-control-lg"
-                                            type="password"
-                                            placeholder="Password"
-                                            value={values.password}
-                                            onChange={this.handlePasswordChange}
-                                        />
-                                    </fieldset>
-
-                                    <button
-                                        className="btn btn-lg btn-primary pull-xs-right"
-                                        type="submit"
-                                        disabled={inProgress}
-                                    >
-                                        Sign in
-                                    </button>
-
-                                </fieldset>
-                            </form>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+                  </Form>
+            </Content>
+        </Layout>
         );
     }
 }
+
+export default Form.create()(Register);

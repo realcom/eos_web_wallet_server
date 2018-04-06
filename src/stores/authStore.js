@@ -35,7 +35,7 @@ class AuthStore {
     this.inProgress = true;
     this.errors = undefined;
     return agent.Auth.login(this.values.email, this.values.password)
-      .then(({ user }) => commonStore.setToken(user.token))
+      .then(({ token }) => commonStore.setToken(token.accessToken))
       .then(() => userStore.pullUser())
       .catch(action((err) => {
         this.errors = err.response && err.response.body && err.response.body.errors;
@@ -48,7 +48,7 @@ class AuthStore {
     this.inProgress = true;
     this.errors = undefined;
     return agent.Auth.register(this.values.username, this.values.email, this.values.password)
-      .then(({ user }) => commonStore.setToken(user.token))
+      .then(({ token }) => commonStore.setToken(token.accessToken))
       .then(() => userStore.pullUser())
       .catch(action((err) => {
         this.errors = err.response && err.response.body && err.response.body.errors;

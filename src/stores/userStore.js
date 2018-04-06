@@ -11,7 +11,7 @@ class UserStore {
   @action pullUser() {
     this.loadingUser = true;
     return agent.Auth.current()
-      .then(action(({ user }) => { this.currentUser = user; }))
+      .then(action(({ user }) => { console.log(user);this.currentUser = user; }))
       .finally(action(() => { this.loadingUser = false; }))
   }
 

@@ -7,7 +7,7 @@ const {Header, Footer} = Layout;
 const LoggedOutView = props => {
     if (!props.currentUser) {
         return (
-            <ul className="nav navbar-nav pull-xs-right">
+            <ul className="nav right-menus">
 
                 <li className="nav-item">
                     <Link to="/" className="nav-link">
@@ -21,12 +21,6 @@ const LoggedOutView = props => {
                     </Link>
                 </li>
 
-                <li className="nav-item">
-                    <Link to="/register" className="nav-link">
-                        Sign up
-                    </Link>
-                </li>
-
             </ul>
         );
     }
@@ -36,25 +30,9 @@ const LoggedOutView = props => {
 const LoggedInView = props => {
     if (props.currentUser) {
         return (
-            <ul className="nav navbar-nav pull-xs-right">
+            <ul className="nav right-menus">
 
-                <li className="nav-item">
-                    <Link to="/" className="nav-link">
-                        Home
-                    </Link>
-                </li>
 
-                <li className="nav-item">
-                    <Link to="/editor" className="nav-link">
-                        <i className="ion-compose"/>&nbsp;New Post
-                    </Link>
-                </li>
-
-                <li className="nav-item">
-                    <Link to="/settings" className="nav-link">
-                        <i className="ion-gear-a"/>&nbsp;Settings
-                    </Link>
-                </li>
 
                 <li className="nav-item">
                     <Link
@@ -62,7 +40,13 @@ const LoggedInView = props => {
                         className="nav-link"
                     >
                         <img src={props.currentUser.image} className="user-pic" alt=""/>
-                        {props.currentUser.username}
+                        Welcome {props.currentUser.email}
+                    </Link>
+                </li>
+
+                <li className="nav-item">
+                    <Link to="/settings" className="nav-link">
+                        <i className="ion-gear-a"/>&nbsp;Settings
                     </Link>
                 </li>
 
@@ -79,7 +63,7 @@ class CustomHeader extends React.Component {
     render() {
         return (
             <Header>
-                <div className="logo">My Eos Wallet</div>
+                <div className="logo"><Link to="/">My Eos Wallet</Link></div>
                 <Menu
                     theme="dark"
                     mode="horizontal"
@@ -89,6 +73,9 @@ class CustomHeader extends React.Component {
                     {/*<Menu.Item key="1">nav 1</Menu.Item>*/}
                     {/*<Menu.Item key="2">nav 2</Menu.Item>*/}
                     {/*<Menu.Item key="3">nav 3</Menu.Item>*/}
+                    <LoggedOutView currentUser={this.props.userStore.currentUser} />
+
+                    <LoggedInView currentUser={this.props.userStore.currentUser} />
                 </Menu>
             </Header>
         );
