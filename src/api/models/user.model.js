@@ -38,19 +38,9 @@ const userSchema = new mongoose.Schema({
     index: true,
     trim: true,
   },
-  services: {
-    facebook: String,
-    google: String,
-  },
-  role: {
-    type: String,
-    enum: roles,
-    default: 'user',
-  },
-  picture: {
-    type: String,
-    trim: true,
-  },
+  wallets: [
+    {type: mongoose.Schema.Types.ObjectId, ref: 'Wallet'}
+  ]
 }, {
   timestamps: true,
 });

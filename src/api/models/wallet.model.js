@@ -13,37 +13,10 @@ const { env, jwtSecret, jwtExpirationInterval } = require('../../config/vars');
  * @private
  */
 const walletSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    match: /^\S+@\S+\.\S+$/,
-    required: true,
-    unique: true,
-    trim: true,
-    lowercase: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 6,
-    maxlength: 128,
-  },
   walletname: {
     type: String,
     maxlength: 128,
     index: true,
-    trim: true,
-  },
-  services: {
-    facebook: String,
-    google: String,
-  },
-  role: {
-    type: String,
-    enum: roles,
-    default: 'wallet',
-  },
-  picture: {
-    type: String,
     trim: true,
   },
 }, {
@@ -55,7 +28,7 @@ const walletSchema = new mongoose.Schema({
 walletSchema.method({
   transform() {
     const transformed = {};
-    const fields = ['id', 'walletname', 'email', 'picture', 'role', 'createdAt'];
+    const fields = ['id', 'walletname', 'createdAt'];
 
     fields.forEach((field) => {
       transformed[field] = this[field];
