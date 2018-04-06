@@ -1,4 +1,4 @@
-import Header from './Header';
+import {CustomFooter, CustomHeader} from './CustomLayout';
 import React from 'react';
 import {Switch, Route, withRouter} from 'react-router-dom';
 import {inject, observer} from 'mobx-react';
@@ -11,6 +11,10 @@ import Login from './Login';
 import Profile from './Profile';
 import Register from './Register';
 import Settings from './Settings';
+import Balance from './Balance';
+import Send from './Send';
+import Transactions from './Transactions';
+
 import 'antd/dist/antd.css';
 import '../styles/main.scss';
 
@@ -36,22 +40,27 @@ export default class App extends React.Component {
         if (this.props.commonStore.appLoaded) {
             return (
                 <div>
-                    <Header/>
+                    <CustomHeader/>
                     <Switch>
                         <Route path="/login" component={Login}/>
                         <Route path="/register" component={Register}/>
                         <Route path="/editor/:slug?" component={Editor}/>
                         <Route path="/article/:id" component={Article}/>
+                        <Route path="/balance" component={Balance}/>
+                        <Route path="/send" component={Send}/>
+                        <Route path="/transactions" component={Transactions}/>
+
                         <PrivateRoute path="/settings" component={Settings}/>
                         <Route path="/@:username" component={Profile}/>
                         <Route path="/@:username/favorites" component={Profile}/>
                         <Route path="/" component={Home}/>
                     </Switch>
+                    <CustomFooter/>
                 </div>
             );
         }
         return (
-            <Header/>
+            <CustomHeader/>
         );
     }
 }

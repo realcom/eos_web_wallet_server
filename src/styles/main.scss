@@ -1,3 +1,25 @@
-html {
-  background: red;
+.ant-layout-header {
+  display: flex;
+  justify-content: space-between;
+  //flex-direction: column;
+  .logo {
+    color: white;
+  }
+}
+
+.default-top-layout {
+  padding: 50px;
+}
+.login-form {
+  margin: 0 auto;
+  max-width: 550px;
+
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.login-form-button {
+  width: 100%;
 }
