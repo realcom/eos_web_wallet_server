@@ -10,7 +10,7 @@ module.exports = {
 
   createWallet: {
     body: {
-    //   walletName: Joi.string().min(6).max(128).required(),
+      walletName: Joi.string().min(4).max(16).required(),
     },
   },
 };

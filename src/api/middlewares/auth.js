@@ -7,9 +7,6 @@ const ADMIN = 'admin';
 const LOGGED_USER = '_loggedUser';
 
 const handleJWT = (req, res, next, roles) => async (err, user, info) => {
-  console.log('hi')
-  console.log(err)
-  console.log(info)
   const error = err || info;
   const logIn = Promise.promisify(req.logIn);
   const apiError = new APIError({
@@ -19,30 +16,25 @@ const handleJWT = (req, res, next, roles) => async (err, user, info) => {
   });
 
   try {
-    console.log(1)
-    console.log(error)
-    console.log(info)
-    console.log(user)
     if (error || !user) throw error;
     await logIn(user, { session: false });
 
   } catch (e) {
     return next(apiError);
   }
-
-  if (roles === LOGGED_USER) {
-    if (user.role !== 'admin' && req.params.userId !== user._id.toString()) {
-      apiError.status = httpStatus.FORBIDDEN;
-      apiError.message = 'Forbidden';
-      return next(apiError);
-    }
-  } else if (!roles.includes(user.role)) {
-    apiError.status = httpStatus.FORBIDDEN;
-    apiError.message = 'Forbidden';
-    return next(apiError);
-  } else if (err || !user) {
-    return next(apiError);
-  }
+  // if (roles === LOGGED_USER) {
+  //   if (user.role !== 'admin' && req.params.userId !== user._id.toString()) {
+  //     apiError.status = httpStatus.FORBIDDEN;
+  //     apiError.message = 'Forbidden';
+  //     return next(apiError);
+  //   }
+  // } else if (!roles.includes(user.role)) {
+  //   apiError.status = httpStatus.FORBIDDEN;
+  //   apiError.message = 'Forbidden';
+  //   return next(apiError);
+  // } else if (err || !user) {
+  //   return next(apiError);
+  // }
 
   req.user = user;
 

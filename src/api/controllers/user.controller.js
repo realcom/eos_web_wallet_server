@@ -27,7 +27,9 @@ exports.get = (req, res) => res.json(req.locals.user.transform());
  * Get logged in user info
  * @public
  */
-exports.loggedIn = (req, res) => res.json({user: req.user.transform()});
+exports.loggedIn = (req, res) => {
+  return res.json({user: req.user.transform()});
+}
 
 /**
  * Create new user

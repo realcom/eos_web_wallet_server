@@ -41,7 +41,6 @@ const router = express.Router();
 router.route('/register')
   .post(validate(register), controller.register);
 
-
 /**
  * @api {post} v1/auth/login Login
  * @apiDescription Get an accessToken

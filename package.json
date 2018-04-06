@@ -103,5 +103,11 @@
     "sinon": "^4.0.1",
     "sinon-chai": "^3.0.0",
     "supertest": "^3.0.0"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 2017,
+      "sourceType": "module"
+    }
   }
 }
