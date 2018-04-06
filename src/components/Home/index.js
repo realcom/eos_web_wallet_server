@@ -5,13 +5,15 @@ import {Link, withRouter,Redirect} from 'react-router-dom';
 import {Button, Checkbox, Form, Icon, Input, Layout} from 'antd';
 const { Content } = Layout;
 const FormItem = Form.Item;
-
-
-@inject('commonStore','userStore')
+@inject('userStore', 'commonStore')
 @withRouter
 @observer
 class Home extends React.Component {
-    componend
+    componentDidMount() {
+        if(this.props.userStore.currentUser) {
+            this.props.history.replace('/balance');
+        }
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         const {currentUser } = this.props.userStore;
