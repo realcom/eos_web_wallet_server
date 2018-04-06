@@ -6830,6 +6830,12 @@ react-lazy-load@^3.0.12:
     lodash.throttle "^4.0.0"
     prop-types "^15.5.8"
 
+react-particles-js@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/react-particles-js/-/react-particles-js-2.1.2.tgz#983814f22b63f2ea92623319e9d9353f22ddcc55"
+  dependencies:
+    lodash.clonedeep "^4.5.0"
+
 react-router-dom@4.2.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.2.2.tgz#c8a81df3adc58bba8a76782e946cbd4eae649b8d"

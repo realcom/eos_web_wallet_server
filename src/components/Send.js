@@ -36,7 +36,7 @@ class Send extends React.Component {
     return (
         <Layout className="default-top-layout">
           <Form layout="inline" style={{margin:"0 auto"}}onSubmit={this.handleSubmit}>
-                          <h1> send EOS </h1>
+                          <h1> {console.log(this.props.match.params.address)} send EOS </h1>
 
             <FormItem
               validateStatus={userNameError ? 'error' : ''}

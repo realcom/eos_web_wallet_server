@@ -11,12 +11,14 @@ import Login from './Login';
 import Profile from './Profile';
 import Register from './Register';
 import Settings from './Settings';
-import Balance from './Balance';
+import ListWallet from './ListWallet';
 import Send from './Send';
 import Transactions from './Transactions';
 
 import 'antd/dist/antd.css';
 import '../styles/main.scss';
+import CreateWallet from './CreateWallet';
+import Welcome from './Welcome';
 
 @inject('userStore', 'commonStore')
 @withRouter
@@ -46,10 +48,11 @@ export default class App extends React.Component {
                         <Route path="/register" component={Register}/>
                         <Route path="/editor/:slug?" component={Editor}/>
                         <Route path="/article/:id" component={Article}/>
-                        <Route path="/balance" component={Balance}/>
-                        <Route path="/send" component={Send}/>
+                        <Route path="/send/" component={Send}/>
                         <Route path="/transactions" component={Transactions}/>
-
+                        <Route path="/wallet/create" component={CreateWallet}/>
+                        <Route path="/wallet/list" component={ListWallet}/>
+                        <Route path="/welcome" component={Welcome}/>
                         <PrivateRoute path="/settings" component={Settings}/>
                         <Route path="/@:username" component={Profile}/>
                         <Route path="/@:username/favorites" component={Profile}/>

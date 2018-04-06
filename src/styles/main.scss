@@ -31,3 +31,14 @@
     padding: 0 10px;
   }
 }
+.create-wallet {
+  display:flex;
+  button {
+    justify-content:center;
+  };
+}
+
+.list-wallet {
+  display: flex;
+  justify-content: space-between;
+}
