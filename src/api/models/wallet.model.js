@@ -13,12 +13,13 @@ const { env, jwtSecret, jwtExpirationInterval } = require('../../config/vars');
  * @private
  */
 const walletSchema = new mongoose.Schema({
-  walletname: {
+  walletName: {
     type: String,
     maxlength: 128,
     index: true,
     trim: true,
   },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 }, {
   timestamps: true,
 });
@@ -28,12 +29,12 @@ const walletSchema = new mongoose.Schema({
 walletSchema.method({
   transform() {
     const transformed = {};
-    const fields = ['id', 'walletname', 'createdAt'];
+    const fields = ['id', 'walletName', 'createdAt'];
 
     fields.forEach((field) => {
       transformed[field] = this[field];
     });
-
+    transformed['balance'] = 100000;
     return transformed;
   },
 
