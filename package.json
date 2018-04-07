@@ -1,44 +1,4 @@
 {
-<<<<<<< HEAD
-  "name": "react-mobx-realworld-example-app",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "https://react-mobx.realworld.io",
-  "license": "MIT",
-  "devDependencies": {
-    "babel-eslint": "^8.2.2",
-    "custom-react-scripts": "0.2.0",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.10.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.7.0",
-    "gh-pages": "^1.0.0"
-  },
-  "dependencies": {
-    "antd": "^3.4.0",
-    "history": "4.7.2",
-    "marked": "^0.3.6",
-    "mobx": "^3.2.2",
-    "mobx-react": "^4.2.2",
-    "promise.prototype.finally": "^3.0.0",
-    "prop-types": "^15.5.10",
-    "query-string": "5.0.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-particles-js": "^2.1.2",
-    "react-router-dom": "4.2.2",
-    "superagent": "^3.6.0",
-    "superagent-promise": "^1.1.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
-=======
   "name": "express-rest-es2017-boilerplate",
   "version": "1.2.2",
   "description": "Express boilerplate for building RESTful APIs",
@@ -143,7 +103,6 @@
     "sinon": "^4.0.1",
     "sinon-chai": "^3.0.0",
     "supertest": "^3.0.0"
->>>>>>> 1712f464c18fb0ca26c2bdc956f3cf2e9ad0a4b3
   },
   "eslintConfig": {
     "parserOptions": {
