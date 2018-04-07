@@ -11,7 +11,7 @@ const FormItem = Form.Item;
 class Home extends React.Component {
     componentDidMount() {
         if(this.props.userStore.currentUser) {
-            this.props.history.replace('/balance');
+            this.props.history.replace('/wallet/list');
         }
     }
     render() {
@@ -26,7 +26,7 @@ class Home extends React.Component {
             return (
               <Redirect to="/welcome" />
             )
-     
+
 
     }
 }
