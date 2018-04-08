@@ -27,7 +27,7 @@ exports.create = async (req, res, next) => {
   try {
     const user = req.user;
     const url = `${process.env.CLEOS_HTTP_ENDPOINT}/v1/wallet/create`
-    const walletName = req.body.walletName;
+    const walletName = `${user.account}_${req.body.walletName}`;
     console.log(walletName)
     const result = await axios.post(url, `"${walletName}"`, {
       headers: { 'Content-Type': 'text/plain' },

@@ -32,7 +32,19 @@ const userSchema = new mongoose.Schema({
     minlength: 6,
     maxlength: 128,
   },
-  username: {
+  account: {
+    type: String,
+    maxlength: 13,
+    index: true,
+    trim: true,
+  },
+  activePublicKey: {
+    type: String,
+    maxlength: 128,
+    index: true,
+    trim: true,
+  },
+  ownerPublicKey: {
     type: String,
     maxlength: 128,
     index: true,
@@ -40,7 +52,7 @@ const userSchema = new mongoose.Schema({
   },
   wallets: [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Wallet'}
-  ]
+  ],
 }, {
   timestamps: true,
 });
@@ -72,7 +84,7 @@ userSchema.pre('save', async function save(next) {
 userSchema.method({
   transform() {
     const transformed = {};
-    const fields = ['id', 'username', 'email', 'picture', 'role', 'createdAt'];
+    const fields = ['id', 'account', 'email', 'picture', 'role', 'createdAt', 'activePublicKey', 'ownerPublicKey'];
 
     fields.forEach((field) => {
       transformed[field] = this[field];

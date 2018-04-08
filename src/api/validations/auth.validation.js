@@ -6,6 +6,7 @@ module.exports = {
     body: {
       email: Joi.string().email().required(),
       password: Joi.string().required().min(6).max(128),
+      account: Joi.string().required().min(4).max(13),
     },
   },
 

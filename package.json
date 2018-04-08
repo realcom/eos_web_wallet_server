@@ -105,9 +105,13 @@
     "supertest": "^3.0.0"
   },
   "eslintConfig": {
+    "extends": "airbnb",
     "parserOptions": {
       "ecmaVersion": 2017,
       "sourceType": "module"
-    }
+    },
+    "indent": [
+      "error", 4
+    ]
   }
 }
