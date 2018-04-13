@@ -45,3 +45,9 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 .idea/
+
+#yarn 
+yarn.lock
+
+# mac
+.DS_Store

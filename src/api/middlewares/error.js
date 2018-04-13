@@ -14,7 +14,6 @@ const handler = (err, req, res, next) => {
     errors: err.errors,
     stack: err.stack,
   };
-
   if (env !== 'development') {
     delete response.stack;
   }
@@ -31,10 +30,9 @@ exports.handler = handler;
  */
 exports.converter = (err, req, res, next) => {
   let convertedError = err;
-
   if (err instanceof expressValidation.ValidationError) {
     convertedError = new APIError({
-      message: 'Erro de Validação',
+      message: 'error',
       errors: err.errors,
       status: err.status,
       stack: err.stack,
@@ -43,10 +41,11 @@ exports.converter = (err, req, res, next) => {
     convertedError = new APIError({
       message: err.message,
       status: err.status,
+      errors: err.errors,
       stack: err.stack,
     });
   }
-
+  console.log(convertedError)
   return handler(convertedError, req, res);
 };
 

@@ -5,7 +5,7 @@ const moment = require('moment-timezone');
 const {jwtExpirationInterval} = require('../../config/vars');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
-
+import cleos from '../services/cleos';
 /**
  * Returns a formated object with tokens
  * @private
@@ -26,35 +26,31 @@ function generateTokenResponse(user, accessToken) {
 exports.register = async (req, res, next) => {
   try {
     // create access key
-
     const user = await (new User(req.body)).save();
     const userTransformed = user.transform();
     const token = generateTokenResponse(user, user.token());
-
-    const keyRegex = /Private key: ([a-zA-Z0-9_]*)(\s*)Public key: ([a-zA-Z0-9_]*)/g;
-    var {stdout, stderr} = await exec(`${process.env.CLEOS_EXEC} create key`);
-    const [, owernerPrivate, , ownerPublic] = keyRegex.exec(stdout);
-    var {stdout, stderr} = await exec(`${process.env.CLEOS_EXEC} create key`);
-    console.log(stdout);
-    console.log(keyRegex.exec(stdout));
-    const [, activePrivate, , activePublic] = keyRegex.exec(stdout);
-    var {stdout, stderr} = await exec(
-      `${process.env.CLEOS_EXEC} create account ${process.env.ROOT_BLOCK_PRODUCER} ${user.account} ${ownerPublic} ${activePublic}`);
-
-    user.activePublicKey = activePublic;
-    user.ownerPublicKey = ownerPublic;
-    await user.save();
-    res.status(httpStatus.CREATED);
-    return res.json({
-      token,
-      user: userTransformed,
-      keys: {
-        owner: {private: owernerPrivate, public: ownerPublic},
-        active: {private: activePrivate, public: activePublic},
-      },
-    });
+    const [owernerPrivate, ownerPublic] = await cleos.createKey();
+    const [activePrivate, activePublic] = await cleos.createKey();
+    try {
+      await cleos.createAccount(process.env.ROOT_BLOCK_PRODUCER, user.account,
+        ownerPublic, activePublic);
+      user.activePublicKey = activePublic;
+      user.ownerPublicKey = ownerPublic;
+      await user.save();
+      res.status(httpStatus.CREATED);
+      return res.json({
+        token,
+        user: userTransformed,
+        keys: {
+          owner: { private: owernerPrivate, public: ownerPublic },
+          active: { private: activePrivate, public: activePublic },
+        },
+      });
+    } catch (err) {
+      await user.remove();
+      return next(err);
+    }
   } catch (error) {
-    console.log(error);
     return next(User.checkDuplicateEmail(error));
   }
 };
@@ -70,6 +66,7 @@ exports.login = async (req, res, next) => {
     const userTransformed = user.transform();
     return res.json({token, user: userTransformed});
   } catch (error) {
+    console.error(error);
     return next(error);
   }
 };
@@ -97,12 +94,12 @@ exports.oAuth = async (req, res, next) => {
  */
 exports.refresh = async (req, res, next) => {
   try {
-    const {email, refreshToken} = req.body;
+    const { email, refreshToken } = req.body;
     const refreshObject = await RefreshToken.findOneAndRemove({
       userEmail: email,
       token: refreshToken,
     });
-    const {user, accessToken} = await User.findAndGenerateToken(
+    const { user, accessToken } = await User.findAndGenerateToken(
       {email, refreshObject});
     const response = generateTokenResponse(user, accessToken);
     return res.json(response);

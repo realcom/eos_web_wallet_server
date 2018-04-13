@@ -14,8 +14,8 @@
     "precommit": "yarn lint",
     "prestart": "yarn docs",
     "start": "cross-env NODE_ENV=production pm2 start ./src/index.js",
-    "dev": "nodemon ./src/index.js",
-    "lint": "eslint **/*.js --ignore-path .gitignore --ignore-pattern internals/scripts",
+    "dev": "nodemon --exec yarn run babel-node --presets env -- ./src/index.js",
+    "lint": "eslint **/*.js --ignore-path .gitignore",
     "lint:fix": "yarn lint -- --fix",
     "lint:watch": "yarn lint -- --watch",
     "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --timeout 20000 --recursive src/api/tests",
@@ -63,6 +63,7 @@
   ],
   "dependencies": {
     "axios": "^0.18.0",
+    "babel-eslint": "^8.2.2",
     "bcryptjs": "2.4.3",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.0",
@@ -89,12 +90,17 @@
   },
   "devDependencies": {
     "apidoc": "^0.17.5",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
     "coveralls": "^3.0.0",
-    "eslint": "^4.2.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
     "eslint-config-airbnb-base": "^12.0.1",
-    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
     "husky": "^0.14.3",
     "mocha": "^3.3.0",
     "nodemon": "^1.11.0",
@@ -103,15 +109,5 @@
     "sinon": "^4.0.1",
     "sinon-chai": "^3.0.0",
     "supertest": "^3.0.0"
-  },
-  "eslintConfig": {
-    "extends": "airbnb",
-    "parserOptions": {
-      "ecmaVersion": 2017,
-      "sourceType": "module"
-    },
-    "indent": [
-      "error", 4
-    ]
   }
 }
