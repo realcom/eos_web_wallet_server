@@ -2,6 +2,7 @@ const express = require('express');
 const userRoutes = require('./user.route');
 const authRoutes = require('./auth.route');
 const walletRoutes = require('./wallet.route');
+const eosRoutes = require('./eos.route');
 
 const router = express.Router();
 
@@ -17,6 +18,7 @@ router.use('/docs', express.static('docs'));
 
 router.use('/users', userRoutes);
 router.use('/auth', authRoutes);
+router.use('/eos', eosRoutes);
 router.use('/wallets', walletRoutes);
 
 module.exports = router;

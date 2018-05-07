@@ -55,3 +55,20 @@ exports.getBalance = async (accountName) => {
     return parseFloat(stdout.split(' ')[0])
   }
 }
+
+// cleos push action eosio.token transfer '[ "eosio", "tester", "25.0000 EOS", "m" ]' -p eosio
+exports.requestFaucet = async(accountName, quantity) => {
+  const { stdout, stderr } = await exec(`${process.env.CLEOS_EXEC} push action eosio.token transfer '[ "eosio", "${accountName}", "5.0000 EOS", "m" ]' -p eosio`)
+  if(stdout.indexOf('executed transaction:') >= 0) {
+    const keyRegex = /executed transaction: ([a-zA-Z0-9_]*)(\s*)/gmi;
+    const [ ,transactionId] = keyRegex.exec(stdout);
+    return { quantity, transactionId };
+  } else {
+    throw(stderr);
+  }
+}
+
+exports.getTransaction = async(transactionId) => {
+  const { stdout, stderr } = await exec(`${process.env.CLEOS_EXEC} get transaction ${transactionId}`)
+  return JSON.parse(stdout);
+}
