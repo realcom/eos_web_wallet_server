@@ -7,7 +7,7 @@ const jwt = require('jwt-simple');
 const uuidv4 = require('uuid/v4');
 const APIError = require('../utils/APIError');
 const { env, jwtSecret, jwtExpirationInterval } = require('../../config/vars');
-
+const { getBalance }  = require('../services/cleos');
 /**
 * User Roles
 */
@@ -82,7 +82,7 @@ userSchema.pre('save', async function save(next) {
  * Methods
  */
 userSchema.method({
-  transform() {
+  async transform() {
     const transformed = {};
     const fields = ['id', 'account', 'email', 'picture', 'role', 'createdAt', 'activePublicKey', 'ownerPublicKey'];
 
@@ -90,6 +90,8 @@ userSchema.method({
       transformed[field] = this[field];
     });
 
+    const balance = await getBalance(user.account);
+    transformed.balance = balance;
     return transformed;
   },
 
@@ -123,10 +125,10 @@ userSchema.statics = {
   async get(id) {
     try {
       let user;
-
       if (mongoose.Types.ObjectId.isValid(id)) {
         user = await this.findById(id).exec();
       }
+
       if (user) {
         return user;
       }

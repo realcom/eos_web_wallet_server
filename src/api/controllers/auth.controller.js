@@ -61,10 +61,10 @@ exports.register = async (req, res, next) => {
  */
 exports.login = async (req, res, next) => {
   try {
-    const {user, accessToken} = await User.findAndGenerateToken(req.body);
+    const { user, accessToken } = await User.findAndGenerateToken(req.body);
     const token = generateTokenResponse(user, accessToken);
     const userTransformed = user.transform();
-    return res.json({token, user: userTransformed});
+    return res.json({ token, user: userTransformed });
   } catch (error) {
     console.error(error);
     return next(error);
@@ -82,7 +82,7 @@ exports.oAuth = async (req, res, next) => {
     const accessToken = user.token();
     const token = generateTokenResponse(user, accessToken);
     const userTransformed = user.transform();
-    return res.json({token, user: userTransformed});
+    return res.json({ token, user: userTransformed });
   } catch (error) {
     return next(error);
   }
@@ -99,8 +99,7 @@ exports.refresh = async (req, res, next) => {
       userEmail: email,
       token: refreshToken,
     });
-    const { user, accessToken } = await User.findAndGenerateToken(
-      {email, refreshObject});
+    const { user, accessToken } = await User.findAndGenerateToken({ email, refreshObject });
     const response = generateTokenResponse(user, accessToken);
     return res.json(response);
   } catch (error) {

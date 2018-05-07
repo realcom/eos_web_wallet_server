@@ -30,9 +30,9 @@ exports.createAccount = async (creatorAccount, accountName, ownerPublicKey, acti
     return true;
   } catch (err) {
     /* bug of cleos...*/
-    if (err.toString().indexOf('Unknown struct') >= 0) {
-      return true;
-    }
+    // if (err.toString().indexOf('Unknown struct') >= 0) {
+    //   return true;
+    // }
     throw err;
   }
 };
@@ -44,4 +44,14 @@ exports.createWallet = async (walletName) => {
     headers: { 'Content-Type': 'text/plain' },
   });
   return result;
+}
+
+
+exports.getBalance = async (accountName) => {
+  const { stdout, stderr } = await exec(`${process.env.CLEOS_EXEC} get currency balance eosio.token ${accountName}`)
+  if (stdout === '') {
+    return 0.0;
+  } else {
+    return parseFloat(stdout.split(' ')[0])
+  }
 }

@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
-const {omit} = require('lodash');
+const { omit } = require('lodash');
 const User = require('../models/user.model');
-const {handler: errorHandler} = require('../middlewares/error');
+const { handler: errorHandler } = require('../middlewares/error');
 
 /**
  * Load user and append to req.
@@ -10,7 +10,7 @@ const {handler: errorHandler} = require('../middlewares/error');
 exports.load = async (req, res, next, id) => {
   try {
     const user = await User.get(id);
-    req.locals = {user};
+    req.locals = { user };
     return next();
   } catch (error) {
     return errorHandler(error, req, res);
@@ -27,8 +27,10 @@ exports.get = (req, res) => res.json(req.locals.user.transform());
  * Get logged in user info
  * @public
  */
-exports.loggedIn = (req, res) => {
-  return res.json({user: req.user.transform()});
+exports.loggedIn = async (req, res) => {
+  console.log('fuck')
+  let user = await req.user.transform();
+  return res.json({ user });
 };
 
 /**

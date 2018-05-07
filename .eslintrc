@@ -1,40 +1,24 @@
 {
-  "extends": "airbnb",
-  "parser": "babel-eslint",
+  "extends": ["eslint:recommended", "prettier"],
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "node": true,
+    "jest": true,
+    "es6": true
+  },
+  "plugins": ["react", "jsx-a11y"],
   "parserOptions": {
     "ecmaVersion": 6,
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     }
   },
-  "env": {
-    "browser": true,
-    "node": true,
-    "mocha": true,
-    "es6": true
-  },
   "rules": {
-    "space-before-function-paren": "off",
-    "linebreak-style": "off",
-    "global-require": "off",
-    "semi": "warn",
-    "arrow-body-style": "off",
-    "react/prop-types": 0,
-    "max-len": [
-      "error",
-      {
-        "code": 200
-      }
-    ],
-    "class-methods-use-this": 0,
-    "jsx-a11y/anchor-is-valid": 0,
-    "react/jsx-no-bind": 0,
-    "no-plusplus": [
-      "error",
-      {
-        "allowForLoopAfterthoughts": true
-      }
-    ],
-    "react/no-multi-comp": 0
+    "no-console": "off",
+    "strict": ["error", "global"],
+    "curly": "warn"
+    // "prettier/prettier": "error"
   }
 }
