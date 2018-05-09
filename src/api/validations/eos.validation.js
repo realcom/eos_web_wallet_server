@@ -1,5 +1,4 @@
 const Joi = require('joi');
-const User = require('../models/user.model');
 
 module.exports = {
   // GET /v1/users
@@ -8,4 +7,11 @@ module.exports = {
 
     },
   },
+  newTransaction: {
+    body: {
+      to: Joi.string().required(),
+      wallet: Joi.string().required(),
+      quantity: Joi.number().required(),
+    }
+  }
 }

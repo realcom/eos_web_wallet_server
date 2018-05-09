@@ -17,7 +17,7 @@ exports.list = async (req, res, next) => {
     const transformedWallets = wallets.map(wallet => wallet.transform());
     res.json({ wallets: transformedWallets });
   } catch (error) {
-    console.error(error)
+    console.error(error);
     next(error);
   }
 };
@@ -36,3 +36,5 @@ exports.create = async (req, res, next) => {
     next(error);
   }
 };
+
+

@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const User = require('../models/user.model');
 const RefreshToken = require('../models/refreshToken.model');
+const Wallet = require('../models/wallet.model');
 const moment = require('moment-timezone');
 const {jwtExpirationInterval} = require('../../config/vars');
 const util = require('util');
@@ -19,6 +20,23 @@ function generateTokenResponse(user, accessToken) {
   };
 }
 
+
+/* temp function wrapper for create wallet */
+const createWallet = async (user, walletName, prefix=true) => {
+  try {
+    walletName = prefix ? `${user.account}_${walletName}` : walletName
+    const result = await cleos.createWallet(walletName);
+    const password = result.data;
+    const wallet = new Wallet({ walletName, user: user._id });
+    await wallet.save();
+    console.log(wallet);
+    console.log(password);
+    return {password, wallet};
+  } catch(error) {
+    console.error(error);
+    throw(error);
+  }
+}
 /**
  * Returns jwt token if registration was successful
  * @public
@@ -29,7 +47,7 @@ exports.register = async (req, res, next) => {
     const user = await (new User(req.body)).save();
     const userTransformed = user.transform();
     const token = generateTokenResponse(user, user.token());
-    const [owernerPrivate, ownerPublic] = await cleos.createKey();
+    const [ownerPrivate, ownerPublic] = await cleos.createKey();
     const [activePrivate, activePublic] = await cleos.createKey();
     try {
       await cleos.createAccount(process.env.ROOT_BLOCK_PRODUCER, user.account,
@@ -37,12 +55,23 @@ exports.register = async (req, res, next) => {
       user.activePublicKey = activePublic;
       user.ownerPublicKey = ownerPublic;
       await user.save();
+
+      // create two wallet for each keys
+      const {password: ownerWalletPassword , wallet: ownerWallet } = await createWallet(user, `owner`);
+      console.log(ownerPrivate, ownerWallet.walletName);
+      await cleos.importKeyToWallet(ownerPrivate, ownerWallet.walletName);
+
+      const {password: activeWalletPassword , wallet: activeWallet } = await createWallet(user, `active`);
+      await cleos.importKeyToWallet(activePrivate, activeWallet.walletName);
+
       res.status(httpStatus.CREATED);
       return res.json({
         token,
         user: userTransformed,
+        ownerWalletPassword,
+        activeWalletPassword,
         keys: {
-          owner: { private: owernerPrivate, public: ownerPublic },
+          owner: { private: ownerPrivate, public: ownerPublic },
           active: { private: activePrivate, public: activePublic },
         },
       });

@@ -46,6 +46,10 @@ exports.createWallet = async (walletName) => {
   return result;
 }
 
+exports.importKeyToWallet = async (key, walletName) => {
+  const result = await exec(`${process.env.CLEOS_EXEC} wallet import ${key} -n ${walletName}`);
+
+}
 
 exports.getBalance = async (accountName) => {
   const { stdout, stderr } = await exec(`${process.env.CLEOS_EXEC} get currency balance eosio.token ${accountName}`)
@@ -59,6 +63,17 @@ exports.getBalance = async (accountName) => {
 // cleos push action eosio.token transfer '[ "eosio", "tester", "25.0000 EOS", "m" ]' -p eosio
 exports.requestFaucet = async(accountName, quantity) => {
   const { stdout, stderr } = await exec(`${process.env.CLEOS_EXEC} push action eosio.token transfer '[ "eosio", "${accountName}", "5.0000 EOS", "m" ]' -p eosio`)
+  if(stdout.indexOf('executed transaction:') >= 0) {
+    const keyRegex = /executed transaction: ([a-zA-Z0-9_]*)(\s*)/gmi;
+    const [ ,transactionId] = keyRegex.exec(stdout);
+    return { quantity, transactionId };
+  } else {
+    throw(stderr);
+  }
+}
+
+exports.newTransaction = async(from, to, quantity, wallet) => {
+  const { stdout, stderr } = await exec(`${process.env.CLEOS_EXEC} push action eosio.token transfer '[ "${from}", "${to}", "${parseFloat(quantity).toFixed(4)} EOS", "m" ]' -p ${from}`)
   if(stdout.indexOf('executed transaction:') >= 0) {
     const keyRegex = /executed transaction: ([a-zA-Z0-9_]*)(\s*)/gmi;
     const [ ,transactionId] = keyRegex.exec(stdout);

@@ -28,7 +28,6 @@ exports.get = (req, res) => res.json(req.locals.user.transform());
  * @public
  */
 exports.loggedIn = async (req, res) => {
-  console.log('fuck')
   let user = await req.user.transform();
   return res.json({ user });
 };

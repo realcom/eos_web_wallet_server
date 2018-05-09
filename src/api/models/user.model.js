@@ -90,7 +90,7 @@ userSchema.method({
       transformed[field] = this[field];
     });
 
-    const balance = await getBalance(user.account);
+    const balance = await getBalance(this.account);
     transformed.balance = balance;
     return transformed;
   },
