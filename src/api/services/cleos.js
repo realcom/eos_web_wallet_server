@@ -76,8 +76,8 @@ exports.requestFaucet = async(accountName, quantity) => {
   }
 }
 
-exports.newTransaction = async(from, to, quantity, wallet) => {
-  const { stdout, stderr } = await exec(`${process.env.CLEOS_EXEC} push action eosio.token transfer '[ "${from}", "${to}", "${parseFloat(quantity).toFixed(4)} EOS", "m" ]' -p ${from}`)
+exports.newTransaction = async(from, to, quantity, tokenName='eosio.token', wallet) => {
+  const { stdout, stderr } = await exec(`${process.env.CLEOS_EXEC} push action ${tokenName} transfer '[ "${from}", "${to}", "${parseFloat(quantity).toFixed(4)} EOS", "m" ]' -p ${from}`)
   if(stdout.indexOf('executed transaction:') >= 0) {
     const keyRegex = /executed transaction: ([a-zA-Z0-9_]*)(\s*)/gmi;
     const [ ,transactionId] = keyRegex.exec(stdout);

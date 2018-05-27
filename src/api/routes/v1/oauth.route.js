@@ -9,6 +9,7 @@ const AccessToken = require('../../models/accessToken.model');
 const AuthorizationCode = require('../../models/authorizationCode.model');
 const { authorize, LOGGED_USER } = require('../../middlewares/auth');
 const utils = require('../../utils');
+const cleos = require('../../services.cleos');
 
 const router = express.Router();
 
