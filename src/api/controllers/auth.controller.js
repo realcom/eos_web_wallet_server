@@ -83,6 +83,7 @@ exports.register = async (req, res, next) => {
         },
       });
     } catch (err) {
+      console.error(err);
       await user.remove();
       return next(err);
     }

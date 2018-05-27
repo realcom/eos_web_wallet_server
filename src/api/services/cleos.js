@@ -25,25 +25,29 @@ exports.createAccount = async (creatorAccount, accountName, ownerPublicKey, acti
   try {
     const { stdout, stderr } = await exec(`${process.env.CLEOS_EXEC} create account ${creatorAccount} ${accountName} ${ownerPublicKey} ${activePublicKey}`);
     if (stderr) {
+      console.error('create Account error');
+      console.log(stderr);
+      if(stderr.toLowerCase().indexOf('warning') >= 0){
+        return true;
+      }
       throw stderr;
     }
     return true;
   } catch (err) {
-    /* bug of cleos...*/
-    // if (err.toString().indexOf('Unknown struct') >= 0) {
-    //   return true;
-    // }
     throw err;
   }
 };
 
 
 exports.createWallet = async (walletName) => {
-  const url = `${process.env.CLEOS_HTTP_ENDPOINT}/v1/wallet/create`
-  const result = await axios.post(url, `"${walletName}"`, {
-    headers: { 'Content-Type': 'text/plain' },
-  });
-  return result;
+  const { stdout, stderr } = await exec(`${process.env.CLEOS_EXEC} wallet create -n ${walletName}`)
+  if (stderr !== '') {
+    throw stderr;
+  } else {
+    const keyRegex = /"([a-zA-Z0-9_]*)"/gmi;
+    const [ ,password] = keyRegex.exec(stdout);
+    return {data: password};
+  }
 }
 
 exports.importKeyToWallet = async (key, walletName) => {
