@@ -1,7 +1,14 @@
 const express = require('express');
 const validate = require('express-validation');
+const oauth2orize = require('oauth2orize');
+
 const controller = require('../../controllers/auth.controller');
+const OauthClient = require('../../models/oauthClient.model');
+const AccessToken = require('../../models/accessToken.model');
+const AuthorizationCode = require('../../models/authorizationCode.model');
+const { authorize, LOGGED_USER } = require('../../middlewares/auth');
 const oAuthLogin = require('../../middlewares/auth').oAuth;
+const utils = require('../../utils');
 const {
   login,
   register,
