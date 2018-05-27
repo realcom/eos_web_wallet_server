@@ -91,9 +91,19 @@ router.route('/me')
   .get(
   passport.authenticate('bearer', { session: false }),
   function(req, res) {
-    res.json({id: req.user._id, email: req.user.email, account: req.user.account });
+    res.json({id: req.user.account, email: req.user.email, account: req.user.account });
   });
 
+
+router.route('/transfer_token')
+  .post(
+    passport.authenticate('bearer', { session: false }),
+    async (req, res) => {
+      const { wallet, to, quantity } = req.body;
+      const from = req.user.account;
+      const transaction = await cleos.newTransaction(from, to, quantity, wallet);
+      res.json({success: true, transaction });
+    });
 module.exports = router;
 
 
