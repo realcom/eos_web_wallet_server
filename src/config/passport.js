@@ -7,7 +7,12 @@ const User = require('../api/models/user.model');
 
 const jwtOptions = {
   secretOrKey: jwtSecret,
-  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
+  jwtFromRequest: (request) => {
+    let jwt = ExtractJwt.fromBodyField('jwt')(request);
+    if(jwt) return jwt;
+    jwt = ExtractJwt.fromAuthHeaderWithScheme('Bearer')(request);
+    return jwt;
+  },
 };
 
 const jwt = async (payload, done) => {

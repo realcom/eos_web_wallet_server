@@ -29,6 +29,7 @@ exports.get = (req, res) => res.json(req.locals.user.transform());
  */
 exports.loggedIn = async (req, res) => {
   let user = await req.user.transform();
+  console.log(req.session);
   return res.json({ user });
 };
 
