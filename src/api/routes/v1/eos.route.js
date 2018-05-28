@@ -4,7 +4,9 @@ const controller = require('../../controllers/eos.controller');
 const { authorize, LOGGED_USER } = require('../../middlewares/auth');
 const {
   requestFaucet,
-  newTransaction
+  newTransaction,
+  getBalance,
+  getBalances
   } = require('../../validations/eos.validation');
 const router = express.Router();
 
@@ -19,5 +21,13 @@ router
 router
   .route('/transaction')
   .post(authorize(LOGGED_USER), validate(newTransaction), controller.newTransaction);
+
+router
+  .route('/balance')
+  .get(validate(getBalance), controller.getBalance);
+
+router
+  .route('/balances')
+  .get(validate(getBalances), controller.getBalances);
 
 module.exports = router;

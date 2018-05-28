@@ -9,7 +9,7 @@ const AccessToken = require('../../models/accessToken.model');
 const AuthorizationCode = require('../../models/authorizationCode.model');
 const { authorize, LOGGED_USER } = require('../../middlewares/auth');
 const utils = require('../../utils');
-const cleos = require('../../services.cleos');
+const cleos = require('../../services/cleos');
 
 const router = express.Router();
 
@@ -100,9 +100,9 @@ router.route('/transfer_token')
   .post(
     passport.authenticate('bearer', { session: false }),
     async (req, res) => {
-      const { wallet, to, quantity } = req.body;
+      const { wallet, to, quantity, symbol } = req.body;
       const from = req.user.account;
-      const transaction = await cleos.newTransaction(from, to, quantity, wallet);
+      const transaction = await cleos.newTransaction(from, to, quantity, symbol);
       res.json({success: true, transaction });
     });
 module.exports = router;

@@ -13,5 +13,16 @@ module.exports = {
       wallet: Joi.string().required(),
       quantity: Joi.number().required(),
     }
+  },
+  getBalance: {
+    query: {
+      accountName: Joi.string().required(),
+      symbol: Joi.string().required(),
+    }
+  },
+  getBalances: {
+    query: {
+      accountName: Joi.string().required(),
+    }
   }
 }

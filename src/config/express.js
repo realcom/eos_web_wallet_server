@@ -70,12 +70,11 @@ passport.use('jwt', strategies.jwt);
 passport.use(new BasicStrategy(verifyClient));
 passport.use(new ClientPasswordStrategy(verifyClient));
 passport.use(new BearerStrategy(
-  async (accessToken, done) => {
-    console.log(accessToken);
+  async (token, done) => {
     try {
-      const accessToken = await AccessToken.findOne(accessToken).populate('user').exec();
+      const accessToken = await AccessToken.findOne({token}).populate('user').exec();
       if (!accessToken) return done(null, false);
-      return done(null, user, {scope: '*'});
+      return done(null, accessToken.user, {scope: '*'});
     } catch (error) {
       return done(error);
     }

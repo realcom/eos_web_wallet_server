@@ -37,3 +37,26 @@ exports.newTransaction = async (req, res, next) => {
     return next(error);
   }
 }
+
+
+exports.getBalance = async (req, res, next) => {
+  try {
+    const { accountName, symbol } = req.query;
+    const balance = await cleos.getBalance(accountName, symbol);
+    res.json({success: true, balance });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+
+
+exports.getBalances = async (req, res, next) => {
+  try {
+    const { accountName } = req.query;
+    const balances = await cleos.getBalances(accountName);
+    res.json({success: true, balances });
+  } catch (error) {
+    return next(error);
+  }
+}
