@@ -55,7 +55,7 @@ exports.importKeyToWallet = async (key, walletName) => {
 
 }
 
-exports.getBalance = async (accountName, tokenName='gxc.token') => {
+exports.getBalance = async (accountName, tokenName='GXQ') => {
   const str = `${process.env.CLEOS_EXEC} get currency balance eosio.token ${accountName} ${tokenName ? tokenName : ''}`;
   console.log(str);
   const { stdout, stderr } = await exec(str);

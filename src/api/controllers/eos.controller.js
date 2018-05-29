@@ -29,9 +29,9 @@ exports.getTransaction = async (req, res, next) => {
 
 exports.newTransaction = async (req, res, next) => {
   try {
-    const { wallet, to, quantity } = req.body;
+    const { to, quantity, symbol, memo, wallet } = req.body;
     const from = req.user.account;
-    const transaction = await cleos.newTransaction(from, to, quantity, wallet);
+    const transaction = await cleos.newTransaction(from, to, quantity, symbol, memo, wallet);
     res.json({success: true, transaction });
   } catch (error) {
     return next(error);

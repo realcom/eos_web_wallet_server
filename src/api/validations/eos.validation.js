@@ -10,7 +10,7 @@ module.exports = {
   newTransaction: {
     body: {
       to: Joi.string().required(),
-      wallet: Joi.string().required(),
+      symbol: Joi.string().required(),
       quantity: Joi.number().required(),
     }
   },

@@ -19,7 +19,7 @@ const oauthClientSchema = new mongoose.Schema({
     trim: true,
   },
   isTrusted: Boolean,
-  redirectUri: String,
+  redirectUri: [String],
 }, {
   timestamps: true,
 });
