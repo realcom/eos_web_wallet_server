@@ -41,15 +41,24 @@ const userSchema = new mongoose.Schema({
   activePublicKey: {
     type: String,
     maxlength: 128,
-    index: true,
+    trim: true,
+  },
+  activeWalletPassword: {
+    type: String,
+    maxlength: 128,
     trim: true,
   },
   ownerPublicKey: {
     type: String,
     maxlength: 128,
-    index: true,
     trim: true,
   },
+  ownerWalletPassword: {
+    type: String,
+    maxlength: 128,
+    trim: true,
+  },
+
   wallets: [
     {type: mongoose.Schema.Types.ObjectId, ref: 'Wallet'}
   ],

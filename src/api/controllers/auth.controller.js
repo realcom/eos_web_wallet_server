@@ -61,15 +61,18 @@ exports.register = async (req, res, next) => {
         ownerPublic, activePublic);
       user.activePublicKey = activePublic;
       user.ownerPublicKey = ownerPublic;
-      await user.save();
+
 
       // create two wallet for each keys
-      const {password: ownerWalletPassword , wallet: ownerWallet } = await createWallet(user, `owner`);
-      console.log(ownerPrivate, ownerWallet.walletName);
+      const {password: ownerWalletPassword, wallet: ownerWallet } = await createWallet(user, `owner`);
       await cleos.importKeyToWallet(ownerPrivate, ownerWallet.walletName);
 
-      const {password: activeWalletPassword , wallet: activeWallet } = await createWallet(user, `active`);
+      const {password: activeWalletPassword, wallet: activeWallet } = await createWallet(user, `active`);
       await cleos.importKeyToWallet(activePrivate, activeWallet.walletName);
+      await cleos.importKeyToWallet(ownerPrivate, 'default');
+      user.ownerWalletPassword = ownerWalletPassword;
+      user.activeWalletPassword = activeWalletPassword;
+      await user.save();
 
       res.status(httpStatus.CREATED);
       return res.json({
