@@ -1,17 +1,17 @@
 const httpStatus = require('http-status');
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+const oauth2orize = require('oauth2orize');
+
+
+const utils = require('../utils');
+const cloes = require('../services/cleos');
 const User = require('../models/user.model');
 const RefreshToken = require('../models/refreshToken.model');
 const Wallet = require('../models/wallet.model');
 const AuthorizationCode = require('../models/authorizationCode.model');
 const moment = require('moment-timezone');
 const {jwtExpirationInterval} = require('../../config/vars');
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
-const oauth2orize = require('oauth2orize');
-const utils = require('../utils');
-
-import cleos from '../services/cleos';
-
 
 
 /**

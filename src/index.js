@@ -1,4 +1,5 @@
 // make bluebird default Promise
+require('babel-register');
 Promise = require('bluebird'); // eslint-disable-line no-global-assign
 const { port, env } = require('./config/vars');
 const app = require('./config/express');

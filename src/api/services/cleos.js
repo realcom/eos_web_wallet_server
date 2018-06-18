@@ -1,5 +1,6 @@
-import util from 'util';
-import axios from 'axios';
+
+const util = require('util');
+const axios = require('axios');
 
 const exec = util.promisify(require('child_process').exec);
 

@@ -1,17 +1,16 @@
 const httpStatus = require('http-status');
 const { omit } = require('lodash');
+const axios = require('axios');
+
+const cleos = require('../services/cleos');
 const Wallet = require('../models/wallet.model');
 const { handler: errorHandler } = require('../middlewares/error');
-const axios = require('axios');
-import cleos from '../services/cleos';
-
 /**
  * Get user list
  * @public
  */
 exports.list = async (req, res, next) => {
   try {
-    // console.log(req)
     const { user } = req;
     const wallets = await Wallet.find({ user: user }).exec();
     const transformedWallets = wallets.map(wallet => wallet.transform());

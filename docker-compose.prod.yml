@@ -1,4 +1,4 @@
 version: "2"
 services:
-  boilerplate-api:
+  gxc-server:
     command: yarn start

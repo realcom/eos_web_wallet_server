@@ -1,9 +1,9 @@
 version: "2"
 services:
-  boilerplate-api:
+  gxc-server:
     build: .
     environment:
-      - MONGO_URI=mongodb://mongodb:27017/express-rest-es2017-boilerplate
+      - MONGO_URI=mongodb://mongodb:27017/gxc-web-wallet-server
     volumes:
       - .:/app
     ports:

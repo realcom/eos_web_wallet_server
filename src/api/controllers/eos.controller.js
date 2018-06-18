@@ -1,5 +1,6 @@
 const util = require('util');
-import cleos from '../services/cleos';
+
+const cleos = require('../services/cleos');
 
 exports.transfer = async (req, res, next) => {
   return next();
